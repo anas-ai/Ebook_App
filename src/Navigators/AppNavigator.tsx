@@ -2,8 +2,8 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import OnboardingScreen from '../screens/OnboardingScreen';
-import {StackData} from '../navigationData/NavigationData';
+import OnboardingScreen from '../screens/Onboarding';
+import {StackData} from '../Routes';
 import { ScreenName } from '../constants/ScreensNames';
 
 const Stack = createNativeStackNavigator();
