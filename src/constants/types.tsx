@@ -36,9 +36,9 @@ type TextBoxProps = {
   bgColor?: string;
   borderColor?: string;
   endIcon?: React.ReactNode;
-  errorMessage:string,
-  regexPattern:RegExp
-  rules:object,
+  errorMessage: string;
+  regexPattern: RegExp;
+  rules: object;
 };
 
 type SvgImgprops = {
@@ -46,4 +46,31 @@ type SvgImgprops = {
   xmlns: string;
 };
 
-export type {SplashTypes, HeadingProps, TextBoxProps, SvgImgprops};
+type titleprops = {
+  title: string;
+  title2: string;
+};
+
+type FormDataprops = {
+  email: string;
+  password: string;
+};
+
+
+type CustomButtonProps ={
+  onPress: ()=> void;
+  title:string;
+  titleStyle:TextStyle,
+  buttonStyle:ViewStyle;
+  loading:boolean
+  disabled:boolean
+}
+export type {
+  SplashTypes,
+  HeadingProps,
+  TextBoxProps,
+  SvgImgprops,
+  titleprops,
+  FormDataprops,
+  CustomButtonProps
+};

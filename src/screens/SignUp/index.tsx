@@ -1,86 +1,49 @@
-import React, {useState} from 'react';
 import {
   View,
   Text,
+  SafeAreaView,
+  StyleSheet,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Image,
 } from 'react-native';
-import {SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
 import {globalStyles} from '../../styles/globalStyles';
-import {TextHeading} from '../../utils/typography';
-import {colors} from '../../styles/colors';
+import Title from '../../components/TitleComponent/Title';
 import StatusBarComponent from '../../components/StatusBarComponent/statusBar';
 import {Controller, useForm} from 'react-hook-form';
+import {colors} from '../../styles/colors';
 import User from '../../assets/images/svg/User';
-import {Button} from '@rneui/themed';
-import {PNG_IMG} from '../../constants/images';
-import Eye from '../../assets/images/svg/Eye';
 import Lock from '../../assets/images/svg/Lock';
 import Eyeoff from '../../assets/images/svg/Eyeoff';
-import Title from '../../components/TitleComponent/Title';
+import Eye from '../../assets/images/svg/Eye';
+import {TextHeading} from '../../utils/typography';
+import {Button} from '@rneui/themed';
+import {PNG_IMG} from '../../constants/images';
 import {ScreenName} from '../../constants/ScreensNames';
 import CustomButton from '../../components/CustumButtonComponent/CustomButton';
-import axios from 'axios';
-import {useToast} from 'react-native-toast-notifications';
 
-const LoginScreen = (props: any) => {
-  const toast = useToast();
+const SignUpScreen = (props: any) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<any>(false);
 
   const {
     control,
     handleSubmit,
+    watch,
     formState: {errors, isSubmitting},
-  } = useForm({defaultValues: {email: '', password: ''}});
+  } = useForm({defaultValues: {email: '', password: '', confirmpassword: ''}});
 
-  const handleSignUP = () =>
-    props.navigation.navigate(ScreenName.SIGNUP_SCREEN);
-
-  const onSubmit = async (data: any) => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8000/api/v1/users/login',
-        data,
-      );
-
-     
-      if (response.status === 201) {
-        console.log(response?.data, 'Login successful');
-        toast.show('Login successful!', {
-          type: 'normal ',
-          placement: 'bottom',
-          duration: 3000,
-          animationType: 'zoom-in',
-        });
-        props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
-      }
-    
-    } catch (error: any) {
-      console.error(
-        'Error during login:',
-        error,
-      );
-      toast.show('Login failed. Please try again.', {
-        type: 'danger ', 
-        placement: 'bottom',
-        duration: 3000,
-        animationType: 'slide-in',
-      });
-    }
-
+  const onSubmit = (data: any) => {
     console.log(data);
   };
 
-  const handelForgotPassword = () => {
-    props.navigation.navigate(ScreenName.FORGOT_PASSWORD_SCREEN);
+  const handleSignIn = () => {
+    props.navigation.navigate(ScreenName.LOGIN_SCREEN);
   };
-
   return (
     <SafeAreaView style={globalStyles.globalContainer}>
       <StatusBarComponent />
-      <Title title="Welcome" title2="Back!" />
+      <Title title="Create an" title2="account" />
       <View style={styles.inputContainer}>
         <View
           style={[
@@ -145,7 +108,7 @@ const LoginScreen = (props: any) => {
                 placeholderTextColor={colors.secondaryTxt}
                 keyboardType="numbers-and-punctuation"
                 style={styles.input}
-                maxLength={204}
+                maxLength={8}
                 secureTextEntry={!isPasswordVisible}
               />
             )}
@@ -168,20 +131,76 @@ const LoginScreen = (props: any) => {
         )}
       </View>
 
-      <View style={styles.forgotPasswordContainer}>
-        <TouchableOpacity activeOpacity={0.5} onPress={handelForgotPassword}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
+      <View style={{paddingTop: 30}}>
+        <View
+          style={[
+            styles.inputWrapper,
+            {borderColor: errors.confirmpassword ? colors.red : '#A8A8A9'},
+          ]}>
+          <Lock height={24} width={24} />
+          <Controller
+            control={control}
+            name="confirmpassword"
+            rules={{
+              required: 'This field is required',
+              validate: value =>
+                value === watch('password') || 'Passwords do not match',
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                placeholder="ConfirmPassword"
+                placeholderTextColor={colors.secondaryTxt}
+                keyboardType="numbers-and-punctuation"
+                style={styles.input}
+                maxLength={8}
+                secureTextEntry={!isPasswordVisible}
+              />
+            )}
+          />
+
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+            <View>
+              {isPasswordVisible ? (
+                <Eye />
+              ) : (
+                <Eyeoff color={colors.secondaryTxt} height={20} width={20} />
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
+        {errors?.confirmpassword && (
+          <Text style={styles.errorText}>
+            {errors.confirmpassword?.message}
+          </Text>
+        )}
       </View>
 
+      <View style={styles.rowContainer}>
+        <TextHeading title="By clicking the" fontSize={13} />
+        <TouchableOpacity activeOpacity={0.5}>
+          <TextHeading
+            title="Registers"
+            fontSize={13}
+            fontColor={colors.secondary}
+          />
+        </TouchableOpacity>
+        <TextHeading title="button, you agree" fontSize={13} />
+      </View>
+      <TextHeading title="to the public offer" fontSize={13} />
       <CustomButton
         onPress={handleSubmit(onSubmit)}
-        title="login"
-        loading={isSubmitting}
+        title="Create Account"
         titleStyle={styles.buttonTitle}
         buttonStyle={styles.loginButton}
+        loading={isSubmitting}
         disabled={isSubmitting}
       />
+
       <View style={styles.socialLoginContainer}>
         <TextHeading
           title="- OR Continue with -"
@@ -199,13 +218,13 @@ const LoginScreen = (props: any) => {
         </View>
         <View style={styles.signupContainer}>
           <TextHeading
-            title="Create An Account"
+            title="I Already Have an Account"
             fontSize={13}
             fontColor={colors.secondaryTxt}
           />
-          <TouchableOpacity activeOpacity={0.6} onPress={handleSignUP}>
+          <TouchableOpacity activeOpacity={0.6} onPress={handleSignIn}>
             <TextHeading
-              title="Sign Up"
+              title="Login"
               fontSize={13}
               fontColor={colors.primary}
               headingStyles={styles.signupText}
@@ -217,6 +236,8 @@ const LoginScreen = (props: any) => {
     </SafeAreaView>
   );
 };
+
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -252,10 +273,18 @@ const styles = StyleSheet.create({
   loginButtonContainer: {
     marginTop: 50,
   },
-
+  buttonTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  loginButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 4,
+    paddingVertical: 14,
+  },
   socialLoginContainer: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 34,
   },
   socialButtonsContainer: {
     flexDirection: 'row',
@@ -270,15 +299,9 @@ const styles = StyleSheet.create({
   signupText: {
     textDecorationLine: 'underline',
   },
-  buttonTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  loginButton: {
-    backgroundColor: colors.primary,
-    borderRadius: 4,
-    paddingVertical: 14,
+  rowContainer: {
+    flexDirection: 'row',
+    paddingTop: 12,
+    gap: 5,
   },
 });
-
-export default LoginScreen;
