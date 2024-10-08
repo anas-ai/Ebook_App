@@ -24,10 +24,19 @@ import {ScreenName} from '../../constants/ScreensNames';
 import CustomButton from '../../components/CustumButtonComponent/CustomButton';
 import axios from 'axios';
 import {useToast} from 'react-native-toast-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = (props: any) => {
   const toast = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = useState<any>(false);
+
+  interface TokenAndUserProps {
+    accessToken: string;
+    user: {
+      email: string;
+      name: string;
+    };
+  }
 
   const {
     control,
@@ -38,39 +47,49 @@ const LoginScreen = (props: any) => {
   const handleSignUP = () =>
     props.navigation.navigate(ScreenName.SIGNUP_SCREEN);
 
+  const SaveTokenAndUserData = async ({
+    accessToken,
+    user,
+  }: TokenAndUserProps) => {
+    const Token = accessToken;
+    const userProfile = JSON.stringify(user);
+    try {
+      await AsyncStorage.setItem('token', Token);
+      await AsyncStorage.setItem('User', userProfile);
+    } catch (error) {}
+  };
+
   const onSubmit = async (data: any) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/v1/users/login',
-        data,
-      );
+      await axios
+        .post(
+          'https://jobportalapi3.sonicesolution.in/candidate/auth/signin',
+          data,
+        )
+        .then(async response => {
+          if (response.status === 200) {
+            console.log(response?.data, 'login');
+            const {accessToken, user} = response?.data;
+            await SaveTokenAndUserData({accessToken, user});
 
-     
-      if (response.status === 201) {
-        console.log(response?.data, 'Login successful');
-        toast.show('Login successful!', {
-          type: 'normal ',
-          placement: 'bottom',
-          duration: 3000,
-          animationType: 'zoom-in',
+            toast.show('Login successful!', {
+              type: 'success',
+              placement: 'bottom',
+              duration: 3000,
+              animationType: 'zoom-in',
+            });
+            props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
+          }
         });
-        props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
-      }
-    
     } catch (error: any) {
-      console.error(
-        'Error during login:',
-        error,
-      );
+      console.error('Error during login:', error);
       toast.show('Login failed. Please try again.', {
-        type: 'danger ', 
+        type: 'danger',
         placement: 'bottom',
         duration: 3000,
         animationType: 'slide-in',
       });
     }
-
-    console.log(data);
   };
 
   const handelForgotPassword = () => {
@@ -181,6 +200,7 @@ const LoginScreen = (props: any) => {
         titleStyle={styles.buttonTitle}
         buttonStyle={styles.loginButton}
         disabled={isSubmitting}
+        loginButtonContainer={{marginTop:50}}
       />
       <View style={styles.socialLoginContainer}>
         <TextHeading

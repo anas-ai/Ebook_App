@@ -15,7 +15,7 @@ export const colors = {
     borderGrey: '#EAEBEC',
     shadow: 'rgba(0, 0, 0, 0.25)',
     darkGreen: '#013d05',
-    green: '#006400',
+    green: '#28A745',
     lightGreen: '#d0ffc2',
     red: '#FF0000',
     bgYellow: '#FFDC65',
@@ -38,7 +38,8 @@ export const colors = {
     TextBOxBG_Color:'#EAEAEA',
     logoutbg_color:'#DA8585',
     IconInActive_color:'#B0ACB3',
-    TextInput_color:'#676767'
+    TextInput_color:'#676767',
+    warning_color:'#FFA500'
     
   };
   

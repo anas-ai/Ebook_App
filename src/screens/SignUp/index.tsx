@@ -199,6 +199,8 @@ const SignUpScreen = (props: any) => {
         buttonStyle={styles.loginButton}
         loading={isSubmitting}
         disabled={isSubmitting}
+        loginButtonContainer={{marginTop:50}}
+
       />
 
       <View style={styles.socialLoginContainer}>

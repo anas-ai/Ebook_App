@@ -9,16 +9,17 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   title,
   titleStyle,
   buttonStyle,
-  loading,
-  disabled
+  loading = false,
+  disabled = false,
+  loginButtonContainer
 }) => {
   return (
-    <View style={styles.loginButtonContainer}>
+    <View style={loginButtonContainer }>
       <Button
         onPress={onPress}
         title={title}
-        titleStyle={titleStyle}
-        buttonStyle={buttonStyle}
+        titleStyle={[styles.buttonTitle,titleStyle]}
+        buttonStyle={[styles.loginButton,buttonStyle]}
         loading={loading}
         disabled={disabled}
       />
@@ -29,6 +30,15 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 const styles = StyleSheet.create({
   loginButtonContainer: {
     marginTop: 50,
+  },
+  buttonTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  loginButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 4,
+    paddingVertical: 10,
   },
 });
 

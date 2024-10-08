@@ -63,8 +63,11 @@ type CustomButtonProps ={
   titleStyle:TextStyle,
   buttonStyle:ViewStyle;
   loading:boolean
-  disabled:boolean
+  disabled:boolean,
+  loginButtonContainer:ViewStyle
 }
+
+
 export type {
   SplashTypes,
   HeadingProps,

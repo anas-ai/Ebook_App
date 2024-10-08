@@ -15,10 +15,9 @@ const ForgotpasswordScreen = () => {
     formState: {errors, isSubmitting},
   } = useForm({defaultValues: {email: ''}});
 
-
-  const onSubmit = (data:any) =>{
-    console.log(data)
-  }
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
     <SafeAreaView style={globalStyles.globalContainer}>
       <Title title="Forgot" title2="password?" />
@@ -57,13 +56,23 @@ const ForgotpasswordScreen = () => {
           <Text style={styles.errorText}>{errors.email?.message}</Text>
         )}
       </View>
-      <View style={{flexDirection:'row',marginTop:20,justifyContent:'center'}}>
-        <TextHeading title="*" fontColor={colors.primary} fontSize={14}/>
-        <TextHeading title=" We will send you a message to set or reset your new password" fontSize={14}/>
+      <View
+        style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
+        <TextHeading title="*" fontColor={colors.primary} fontSize={14} />
+        <TextHeading
+          title=" We will send you a message to set or reset your new password"
+          fontSize={14}
+        />
       </View>
-      <CustomButton onPress={handleSubmit(onSubmit)} title='Submit'  titleStyle={styles.buttonTitle}
-      disabled={isSubmitting}
-        buttonStyle={styles.loginButton} loading={isSubmitting}/>
+      <CustomButton
+        onPress={handleSubmit(onSubmit)}
+        title="Submit"
+        titleStyle={styles.buttonTitle}
+        disabled={isSubmitting}
+        buttonStyle={styles.loginButton}
+        loading={isSubmitting}
+        loginButtonContainer={{marginTop:50}}
+      />
     </SafeAreaView>
   );
 };
