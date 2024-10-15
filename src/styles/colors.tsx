@@ -34,7 +34,7 @@ export const colors = {
     jobcategoriColor2:'#37B7AF',
     jobcategoriColor3:'#CB37E3',
     textSecondary:'#787878',
-    graytextColor:'#484848',
+    GrayPlaceHolderTextColor:'#BBBBBB',
     TextBOxBG_Color:'#EAEAEA',
     logoutbg_color:'#DA8585',
     IconInActive_color:'#B0ACB3',

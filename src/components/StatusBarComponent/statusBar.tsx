@@ -14,6 +14,7 @@ const StatusBarComponent = () => {
       backgroundColor={colors.white}
       showHideTransition={statusBarTransition}
       hidden={hidden}
+      barStyle='dark-content'
       />
   );
 };

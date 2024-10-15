@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import AppNavigator from './src/Navigators/AppNavigator';
@@ -12,19 +11,19 @@ const App = () => {
   }, []);
   return (
     <AuthProvider>
-
-    <ToastProvider
-      placement="bottom"
-      duration={3000}
-      animationType="zoom-in"
-      animationDuration={250}
-      successColor={colors.green}
-      dangerColor={colors.red}
-      warningColor={colors.warning_color}>
-      <AppNavigator />
-    </ToastProvider>
+      <ToastProvider
+        placement="bottom"
+        duration={3000}
+        animationType="zoom-in"
+        animationDuration={250}
+        successColor={colors.green}
+        dangerColor={colors.red}
+        warningColor={colors.warning_color} 
+        normalColor="#000"
+        >
+        <AppNavigator />
+      </ToastProvider>
     </AuthProvider>
-
   );
 };
 

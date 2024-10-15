@@ -13,32 +13,32 @@ import useAuth from '../../hooks/useAuth';
 import { ActivityIndicator } from 'react-native';
 
 const GetStartedScreen = (props: any) => {
-  const {loading, setLoading} = useAuth();
-  const checkLoginStatus = async () => {
-    setLoading(true)
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        props.navigation.navigate(ScreenName.HOME_SCREEN);
-      } else {
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error('Error checking login status:', error);
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+  // const {loading, setLoading} = useAuth();
+  // const checkLoginStatus = async () => {
+  //   setLoading(true)
+  //   try {
+  //     const token = await AsyncStorage.getItem('token');
+  //     if (token) {
+  //       props.navigation.navigate(ScreenName.HOME_SCREEN);
+  //     } else {
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error checking login status:', error);
+  //     setLoading(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, []);
 
-  if (loading) {
-    return (
-      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+  //       <ActivityIndicator size="large" color={colors.primary} />
+  //     </View>
+  //   );
+  // }
  
   const handleOnpress = () => {
     props.navigation.navigate(ScreenName.HOME_SCREEN);
