@@ -39,7 +39,7 @@ export const colors = {
     logoutbg_color:'#DA8585',
     IconInActive_color:'#B0ACB3',
     TextInput_color:'#676767',
-    warning_color:'#FFA500'
-    
+    warning_color:'#FFA500',
+    SearchIconColor:'#BBBBBB'
   };
   
