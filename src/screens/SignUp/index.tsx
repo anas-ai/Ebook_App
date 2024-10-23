@@ -42,7 +42,7 @@ const SignUpScreen = (props: any) => {
   };
   return (
     <SafeAreaView style={globalStyles.globalContainer}>
-      <StatusBarComponent />
+      <StatusBarComponent backgroundColor={colors.white}/>
       <Title title="Create an" title2="account" />
       <View style={styles.inputContainer}>
         <View

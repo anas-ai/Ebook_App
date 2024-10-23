@@ -98,7 +98,7 @@ const LoginScreen = (props: any) => {
 
   return (
     <SafeAreaView style={globalStyles.globalContainer}>
-      <StatusBarComponent />
+      <StatusBarComponent backgroundColor={colors.white}  />
       <Title title="Welcome" title2="Back!" />
       <View style={styles.inputContainer}>
         <View

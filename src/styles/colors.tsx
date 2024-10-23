@@ -40,6 +40,7 @@ export const colors = {
     IconInActive_color:'#B0ACB3',
     TextInput_color:'#676767',
     warning_color:'#FFA500',
-    SearchIconColor:'#BBBBBB'
+    SearchIconColor:'#BBBBBB',
+    mainStackColor:'#f9f9f7'
   };
   

@@ -11,7 +11,7 @@ export const globalStyles = StyleSheet.create({
   globalStylesMainStack:{
     flex: 1,
     paddingHorizontal: 20,
-    backgroundColor:colors.lightGray,
+    backgroundColor:colors.mainStackColor,
     paddingVertical: 20,
   },
   flex: {
