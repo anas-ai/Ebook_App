@@ -10,9 +10,9 @@ export const globalStyles = StyleSheet.create({
   },
   globalStylesMainStack:{
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 14,
     backgroundColor:colors.mainStackColor,
-    paddingVertical: 20,
+    paddingVertical: 18,
   },
   flex: {
     flex: 1,

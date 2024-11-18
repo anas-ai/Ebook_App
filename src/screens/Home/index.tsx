@@ -1,20 +1,14 @@
 import {
   View,
-  Text,
-  Button,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   TextInput,
   Image,
-  FlatList,
-  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import useAuth from '../../hooks/useAuth';
 import {globalStyles} from '../../styles/globalStyles';
-import HeaderComponent from '../../components/HeaderComponent/HeaderComponent';
 import StatusBarComponent from '../../components/StatusBarComponent/statusBar';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from '../../styles/colors';
@@ -22,93 +16,32 @@ import {TextHeading} from '../../utils/typography';
 import SortIcon from '../../assets/images/svg/sort';
 import {PNG_IMG} from '../../constants/images';
 import FilterIconSvg from '../../assets/images/svg/filter';
-// import PromoCard from '../../components/PromoSwiperComponent/PromoCard';
+import {Button} from '@rneui/themed';
+import CustomSwiper from '../../components/PromoSwiperComponent/PromoCard';
+import ProductCard from '../../components/ProducCardComponent/ProductCard';
+import useAuth from '../../hooks/useAuth';
+import HeaderComponent from '../../components/HeaderComponent/HeaderComponent';
 
-const SwiperData = [
-  {
-    id: 1,
-    backgroundColor: '#FFA4B3',
-    discount: '50-40% OFF',
-    product: 'New Collection',
-    colorsoff: 'All colors available',
-    image: PNG_IMG.GOOGLE_PNG,
-  },
-  {
-    id: 2,
-    backgroundColor: colors.bgYellow,
-    discount: '50-40% OFF',
-    product: 'New Collection',
-    colorsoff: 'All colors available',
-    image: PNG_IMG.GOOGLE_PNG,
-  },
-  {
-    id: 3,
-    backgroundColor: colors.green,
-    discount: '50-40% OFF',
-    product: 'New Collection',
-    colorsoff: 'All colors available',
-    image: PNG_IMG.GOOGLE_PNG,
-  },
-];
-const Home = () => {
+const Home = (props:any) => {
   const {logout} = useAuth();
-  const navigation = useNavigation();
-  const [search, setSearch] = useState();
-  const screenWidth = Dimensions.get('screen').width;
-  const [activeIndex, setActiveIndex] = useState(0);
+  const navigation = useNavigation(); // Use the useNavigation hook to access the navigation object
 
-  const renderItem = ({item}: any) => {
-    return (
-      <SafeAreaView style={{flex: 1}}>
-        <View
-          style={{
-            height: 189,
-            width: screenWidth,
-            backgroundColor: item.backgroundColor,
-            borderRadius: 10,
-            marginTop: 10,
-            marginLeft: 10,
-          }}></View>
-      </SafeAreaView>
-    );
+  const HandleLogout = (navigation:any)=>(logout(navigation));
+
+  // Open the drawer when triggered
+  const openDrawer = (navigation:any) => {
+    navigation.openDrawer(navigation); // This will open the drawer
   };
 
-  const renderDotIndicators = () => {
-    return (
-      <View
-        style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
-        {SwiperData.map((dot, index) => (
-          <View
-            key={index}
-            style={{
-              height: 10,
-              width: 10,
-              backgroundColor: activeIndex === index ? 'green' : 'red',
-              borderRadius: 5,
-              marginHorizontal: 2,
-            }}></View>
-        ))}
-      </View>
-    );
-  };
-
-  const handleScrool = (event: any) => {
-    const scrollPostion = event.nativeEvent.contentOffset.x;
-    console.log({scrollPostion});
-
-    const index = Math.round(scrollPostion / screenWidth);
-    setActiveIndex(index);
-    console.log({index});
-  };
   return (
     <SafeAreaView style={globalStyles.globalStylesMainStack}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1, paddingVertical: 20}}>
         <StatusBarComponent backgroundColor={colors.lightGray} />
-        <HeaderComponent />
+        <HeaderComponent {...props} />
 
-        <View style={{paddingHorizontal: 8, marginTop: 20}}>
+        <View style={{paddingHorizontal: 8, marginVertical: 20}}>
           <View
             style={{
               flexDirection: 'row',
@@ -147,13 +80,15 @@ const Home = () => {
             />
           </View>
         </View>
+        
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginTop: 20,
+            marginVertical: 10,
             paddingHorizontal: 10,
+            paddingVertical: 5,
           }}>
           <TextHeading
             fontSize={18}
@@ -166,33 +101,34 @@ const Home = () => {
               flexDirection: 'row',
               gap: 12,
             }}>
-            <View
-              style={{
-                backgroundColor: colors.white,
-                paddingHorizontal: 8,
-                paddingVertical: 4,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: colors.black,
-                elevation: 4,
-                borderRadius: 6,
-                gap: 5,
-              }}>
-              <TextHeading
-                fontSize={14}
-                fontWeight="400"
-                fontColor={colors.black}
-                title="Sort"
-              />
-              <SortIcon />
-            </View>
+            <TouchableOpacity onPress={HandleLogout}> 
+              <View
+                style={{
+                  backgroundColor: colors.white,
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: colors.black,
+                  elevation: 4,
+                  borderRadius: 6,
+                  gap: 5,
+                }}>
+                <TextHeading
+                  fontSize={14}
+                  fontWeight="400"
+                  fontColor={colors.black}
+                  title="Sort"
+                />
+                <SortIcon />
+              </View>
+            </TouchableOpacity>
 
             <View
               style={{
                 backgroundColor: colors.white,
                 paddingHorizontal: 8,
-                paddingVertical: 4,
                 flexDirection: 'row',
                 alignItems: 'center',
                 shadowColor: colors.black,
@@ -210,19 +146,15 @@ const Home = () => {
             </View>
           </View>
         </View>
-        <View
-          style={{
-            marginTop: 30,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
+
+        <View style={{marginVertical: 10, flexDirection: 'row', justifyContent: 'space-evenly'}}>
           {[...Array(5)].map((item, index) => (
             <View key={index}>
               <Image
                 source={PNG_IMG.GETSTARTED_SCREEN}
                 style={{
-                  height: 60,
-                  width: 60,
+                  height: 56,
+                  width: 56,
                   borderRadius: 50,
                   resizeMode: 'cover',
                 }}
@@ -239,20 +171,79 @@ const Home = () => {
             </View>
           ))}
         </View>
-        <View style={{marginTop: 16}}>
-          <FlatList
-            data={SwiperData}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            onScroll={handleScrool}
-            snapToAlignment="center" // Align to the center for better snapping
-            decelerationRate="fast"
-          />
+        
+        <View>
+          <CustomSwiper />
+        </View>
 
-          {renderDotIndicators()}
+        <View>
+          <ProductCard />
+        </View>
+
+        <View style={{marginVertical: 10}}>
+          <View
+            style={{
+              padding: 8,
+              width: '100%',
+              backgroundColor: colors.PingBg,
+              borderRadius: 8,
+              paddingHorizontal: 10,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <View style={{paddingHorizontal: 4, paddingVertical: 4}}>
+                <TextHeading
+                  title="Trending Products "
+                  fontColor={colors.white}
+                  fontWeight="500"
+                  fontSize={16}
+                />
+
+                <View
+                  style={{
+                    paddingTop: 4,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}>
+                  <Icon name="calendar-outline" size={16} color={colors.white} />
+                  <TextHeading
+                    title="Last Date 29/02/22 "
+                    fontColor={colors.white}
+                    fontSize={12}
+                    fontWeight="400"
+                  />
+                </View>
+              </View>
+              <View>
+                <Button
+                  title="View All"
+                  type="outline"
+                  buttonStyle={{
+                    borderColor: colors.white,
+                    borderWidth: 1,
+                    borderRadius: 6,
+                  }}
+                  titleStyle={{color: colors.white, fontSize: 14}}
+                  containerStyle={{width: '100%'}}
+                  iconRight
+                  icon={
+                    <Icon
+                      name="arrow-forward"
+                      size={18}
+                      color={colors.white}
+                      style={{marginLeft: 10}}
+                    />
+                  }
+                  size="sm"
+                />
+              </View>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

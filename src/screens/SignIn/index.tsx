@@ -25,8 +25,12 @@ import CustomButton from '../../components/CustumButtonComponent/CustomButton';
 import axios from 'axios';
 import {useToast} from 'react-native-toast-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { axiosInstance } from '../../utils/api';
+import { ApiConfig } from '../../config/ApiConfig';
+import useAuth from '../../hooks/useAuth';
 
 const LoginScreen = (props: any) => {
+  const{login} = useAuth()
   const toast = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = useState<any>(false);
 
@@ -41,44 +45,36 @@ const LoginScreen = (props: any) => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: {errors, isSubmitting},
   } = useForm({defaultValues: {email: '', password: ''}});
 
   const handleSignUP = () =>
     props.navigation.navigate(ScreenName.SIGNUP_SCREEN);
 
-  const SaveTokenAndUserData = async ({
-    accessToken,
-    user,
-  }: TokenAndUserProps) => {
-    const Token = accessToken;
-    const userProfile = JSON.stringify(user);
-    try {
-      await AsyncStorage.setItem('token', Token);
-      await AsyncStorage.setItem('User', userProfile);
-    } catch (error) {}
-  };
+  
 
   const onSubmit = async (data: any) => {
+    
     try {
-      await axios
+      await axiosInstance
         .post(
-          'https://jobportalapi3.sonicesolution.in/candidate/auth/signin',
+          ApiConfig.POST_LOGIN,
           data,
         )
         .then(async response => {
           if (response.status === 200) {
-            console.log(response?.data, 'login');
-            const {accessToken, user} = response?.data;
-            await SaveTokenAndUserData({accessToken, user});
-
+            const {accessToken, user} = response?.data?.data;
+            await login(accessToken)
+            // reset()
+            
             toast.show('Login successful!', {
               type: 'success',
               placement: 'bottom',
               duration: 3000,
               animationType: 'zoom-in',
             });
-            props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
+            // props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
           }
         });
     } catch (error: any) {

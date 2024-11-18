@@ -41,6 +41,8 @@ export const colors = {
     TextInput_color:'#676767',
     warning_color:'#FFA500',
     SearchIconColor:'#BBBBBB',
-    mainStackColor:'#f9f9f7'
+    mainStackColor:'#f9f9f7',
+    BlueBg:'#4392F9',
+    PingBg:'#FD6E87'
   };
   

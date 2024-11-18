@@ -8,32 +8,34 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../../styles/colors';
 
 const OnboardingScreen = (props: any) => {
-  const {loading, setLoading} = useAuth();
+  const {loading,} = useAuth();
 
-  const checkLoginStatus = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
-      } else {
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error('Error checking login status:', error);
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+//   const checkLoginStatus = async () => {
+//     try {
+//         const token = await AsyncStorage.getItem('token');
+//         console.log(token, 'token');
 
-  if (loading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
+//         if (token) {
+//             props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
+//         } else {
+//             setLoading(false);
+//         }
+//     } catch (error) {
+//         console.error('Error checking login status:', error);
+//         setLoading(false);
+//     }
+// };
+//  useEffect(() => {
+//     checkLoginStatus();
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <View style={styles.loaderContainer}>
+//         <ActivityIndicator size="large" color={colors.primary} />
+//       </View>
+//     );
+//   }
 
   const handleDone = () => {
     props.navigation.navigate(ScreenName.LOGIN_SCREEN);
