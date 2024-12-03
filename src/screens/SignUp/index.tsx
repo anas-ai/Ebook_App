@@ -42,7 +42,7 @@ const SignUpScreen = (props: any) => {
   };
   return (
     <SafeAreaView style={globalStyles.globalContainer}>
-      <StatusBarComponent backgroundColor={colors.white}/>
+      <StatusBarComponent backgroundColor={colors.white} />
       <Title title="Create an" title2="account" />
       <View style={styles.inputContainer}>
         <View
@@ -181,7 +181,11 @@ const SignUpScreen = (props: any) => {
       </View>
 
       <View style={styles.rowContainer}>
-        <TextHeading title="By clicking the" fontSize={13} />
+        <TextHeading
+          title="By clicking the"
+          fontSize={13}
+          fontColor={colors.black}
+        />
         <TouchableOpacity activeOpacity={0.5}>
           <TextHeading
             title="Registers"
@@ -189,9 +193,17 @@ const SignUpScreen = (props: any) => {
             fontColor={colors.secondary}
           />
         </TouchableOpacity>
-        <TextHeading title="button, you agree" fontSize={13} />
+        <TextHeading
+          title="button, you agree"
+          fontSize={13}
+          fontColor={colors.black}
+        />
       </View>
-      <TextHeading title="to the public offer" fontSize={13} />
+      <TextHeading
+        title="to the public offer"
+        fontSize={13}
+        fontColor={colors.black}
+      />
       <CustomButton
         onPress={handleSubmit(onSubmit)}
         title="Create Account"
@@ -199,8 +211,7 @@ const SignUpScreen = (props: any) => {
         buttonStyle={styles.loginButton}
         loading={isSubmitting}
         disabled={isSubmitting}
-        loginButtonContainer={{marginTop:50}}
-
+        loginButtonContainer={{marginTop: 50}}
       />
 
       <View style={styles.socialLoginContainer}>

@@ -62,6 +62,7 @@ const ForgotpasswordScreen = () => {
         <TextHeading
           title=" We will send you a message to set or reset your new password"
           fontSize={14}
+          fontColor={colors.black}
         />
       </View>
       <CustomButton

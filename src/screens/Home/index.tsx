@@ -24,14 +24,12 @@ import HeaderComponent from '../../components/HeaderComponent/HeaderComponent';
 
 const Home = (props:any) => {
   const {logout} = useAuth();
-  const navigation = useNavigation(); // Use the useNavigation hook to access the navigation object
 
-  const HandleLogout = (navigation:any)=>(logout(navigation));
 
-  // Open the drawer when triggered
-  const openDrawer = (navigation:any) => {
-    navigation.openDrawer(navigation); // This will open the drawer
-  };
+  
+ const HandleLogout = async()=>{
+  await logout(props)
+ }
 
   return (
     <SafeAreaView style={globalStyles.globalStylesMainStack}>

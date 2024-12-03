@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 export const AuthNavigatorDrawer = () => {
   return (
-    <Stack.Navigator initialRouteName={ScreenName.HOME_SCREEN}>
+    <Stack.Navigator initialRouteName={ScreenName.ONBOARDING_SCREEN}>
       {AuthStack?.map((item, index) => (
         <Stack.Screen
           key={index}

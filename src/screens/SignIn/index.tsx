@@ -42,6 +42,7 @@ const LoginScreen = (props: any) => {
     };
   }
 
+
   const {
     control,
     handleSubmit,
@@ -198,6 +199,8 @@ const LoginScreen = (props: any) => {
         disabled={isSubmitting}
         loginButtonContainer={{marginTop:50}}
       />
+
+
       <View style={styles.socialLoginContainer}>
         <TextHeading
           title="- OR Continue with -"

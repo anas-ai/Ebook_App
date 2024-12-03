@@ -1,24 +1,26 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, {createContext, useState, useEffect, ReactNode} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScreenName } from '../constants/ScreensNames';
-import { useToast } from 'react-native-toast-notifications';
-import { NavigationProp } from '@react-navigation/native';
+import {ScreenName} from '../constants/ScreensNames';
+import {useToast} from 'react-native-toast-notifications';
+import {NavigationProp} from '@react-navigation/native';
 
 type AuthContextType = {
   userToken: string | null;
   login: (token: string) => Promise<void>;
-  logout: (navigation: NavigationProp<any>) => Promise<void>;
-  loading: boolean;
+  logout: (navigation: any) => Promise<void>; 
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
- };
+  loading:boolean
+};
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+const AuthProvider: React.FC<AuthProviderProps> = ({children}: any) => {
   const [userToken, setUserToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const toast = useToast();
@@ -35,12 +37,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = async (navigation: NavigationProp<any>): Promise<void> => {
+  const logout = async ({navigation}:any): Promise<void> => {
     try {
       setLoading(true);
       await AsyncStorage.removeItem('userToken');
-      navigation.navigate(ScreenName.LOGIN_SCREEN);
-      toast.show('Logged out successfully', { type: 'warning' });
+       navigation.navigate(ScreenName.LOGIN_SCREEN);
+      toast.show('Logged out successfully', {type: 'warning'});
     } catch (error) {
       console.error('Error during logout:', error);
     } finally {
@@ -64,7 +66,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ userToken, login, logout, loading ,setLoading}}>
+    <AuthContext.Provider
+      value={{userToken, login, logout, loading, setLoading}}>
       {children}
     </AuthContext.Provider>
   );
