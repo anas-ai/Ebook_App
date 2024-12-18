@@ -6,13 +6,18 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import useAuth from '../../hooks/useAuth';
 import {colors} from '../../styles/colors';
 import {TextHeading} from '../../utils/typography';
-import { axiosInstance } from '../../utils/api';
-import { ApiConfig } from '../../config/ApiConfig';
+import {axiosInstance} from '../../utils/api';
+import {ApiConfig} from '../../config/ApiConfig';
+import {Icon} from '@rneui/themed';
+import {Rating} from 'react-native-ratings';
+import {moderateScale} from 'react-native-size-matters';
+import {ScreenName} from '../../constants/ScreensNames';
 
 interface Product {
   id: number;
@@ -21,10 +26,12 @@ interface Product {
   description: string;
   category: string;
   image: string;
+  rating: number;
 }
 
-const ProductCard = () => {
+const ProductCard = (props: any) => {
   const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
 
   const {logout, loading, setLoading} = useAuth();
   const [currentIndex, setcurrentIndex] = useState(0);
@@ -46,164 +53,92 @@ const ProductCard = () => {
     GetProductData();
   }, []);
 
-  const renderloading = () => {
-    if (loading) {
-      return (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      );
-    }
-  };
-
-  
-
   const ProductsItem = ({item}: any) => {
     return (
-      <SafeAreaView style={{flex: 1,marginVertical:20}}>
-        {/* <View
-          style={{
-            backgroundColor: colors.white,
-            margin: 4,
-            shadowColor: '#000',
-            shadowOffset: {width: 0, height: 2},
-            shadowOpacity: 0.3,
-            shadowRadius: 3,
-            elevation: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+      <SafeAreaView style={{flex: 1, marginBottom: 20}}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            props.navigation.navigate(ScreenName.PRODUCT_DETAILS_SCREEN, {
+              bookDetails: item,
+            })
+          }>
           <View
             style={{
-              borderBottomColor: colors.black,
-              borderBottomWidth: 1,
-              padding: 5,
+              borderRadius: 10,
+              backgroundColor: colors.white,
+              marginHorizontal: 10,
+              elevation: 10,
             }}>
             <Image
-              source={{uri: item?.bookCover }}
+              source={{uri: item?.bookCover}}
               style={{
-                width: 170,
-                height: 150,
+                height: screenHeight * 0.4,
+                width: screenWidth * 0.6,
+
                 resizeMode: 'contain',
               }}
             />
-          </View>
-          <View style={{marginTop: 5, padding: 5, paddingBottom: 20}}>
-            <TextHeading
-              title={
-                item?.author.length > 30
-                  ? item?.author.slice(0, 30) + '...'
-                  : item?.author
-              }
-              fontWeight="500"
-              fontColor={colors.black}
-              fontSize={12}
-            />
-            <TextHeading
-              title={
-                item?.description.length > 30
-                  ? item?.description.slice(0, 30) + '...'
-                  : item?.description
-              }
-              fontWeight="400"
-              fontColor={colors.black}
-              fontSize={10}
-            />
-            <TextHeading
-              title={`$${
-                item?.price.length > 30
-                  ? item?.price.slice(0, 30) + '...'
-                  : item?.price
-              }`}
-              fontWeight="500"
-              fontColor={colors.black}
-              fontSize={12}
-            />
-
-            
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 5,
-              }}>
-              {Array.from({length: 5}, (_, index) => (
-                <Icon
-                  key={index}
-                  name={
-                    index < Math.round(item?.rating?.rate) ? 'star' : 'star-o'
-                  } 
-                  size={15} 
-                  color="#FFD700" 
-                />
-              ))}
+            <View style={{paddingVertical: 8, paddingLeft: 18}}>
               <TextHeading
-                title={` (${item?.rating?.count} reviews)`}
-                fontWeight="400"
+                title={
+                  item?.bookName.length > 30
+                    ? item?.bookName.slice(0, 30) + '...'
+                    : item?.bookName
+                }
+                fontWeight="500"
                 fontColor={colors.black}
-                fontSize={10}
+                fontSize={14}
+              />
+
+              <Rating
+                imageSize={16}
+                readonly
+                startingValue={item?.rating}
+                style={{alignItems: 'flex-start', paddingVertical: 8}}
+              />
+              <TextHeading
+                title={item?.author}
+                fontColor={colors.gray}
+                fontSize={12}
+                fontWeight="600"
+                headingStyles={{paddingBottom: 2}}
+              />
+              <TextHeading
+                title={`$${item?.price}`}
+                fontColor={colors.primary}
+                fontSize={12}
+                fontWeight="600"
               />
             </View>
           </View>
-        </View> */}
-
-        <View
-          style={{
-            alignItems: 'center',
-            borderRadius: 10,
-            padding:10,
-            elevation:10,
-            backgroundColor:colors.white,
-            marginHorizontal:10,
-          
-          }}>
-          <Image
-            source={{uri: item?.bookCover}}
-            style={{
-              height: screenWidth * 0.5, 
-              width: screenWidth * 0.5,  
-              resizeMode: 'contain', 
-              borderRadius: 10, 
-            }}
-          />
-          <View style={{paddingVertical: 5, alignItems: 'center'}}>
-            <TextHeading
-              title={
-                item?.bookName.length > 30
-                  ? item?.bookName.slice(0, 30) + '...'
-                  : item?.bookName
-              }
-              fontWeight="500"
-              fontColor={colors.black}
-              fontSize={14}
-              headingStyles={{textAlign: 'center', width: '100%'}}
-            />
-          </View>
-        </View>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   };
-  return (
-    <View>
-      <View style={{marginVertical: 10}}>
-        <Animated.FlatList
-          ref={Ref}
-          data={products}
-          ItemSeparatorComponent={() => (
-            <View style={{height: 1, backgroundColor: 'gray'}} />
-          )}
-          renderItem={ProductsItem}
-          keyExtractor={item =>
-            item?.id ? item.id.toString() : Math.random().toString()
-          } 
-          nestedScrollEnabled={true}
-          horizontal={true}
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          removeClippedSubviews={true}
-        />
 
-        {/* {products.length > 0 && (
+  return (
+    <View style={{marginVertical: 10}}>
+      <Animated.FlatList
+        ref={Ref}
+        data={products}
+        ItemSeparatorComponent={() => (
+          <View style={{height: 1, backgroundColor: 'gray'}} />
+        )}
+        renderItem={({item}) => (
+          <ProductsItem item={item} navigation={props.navigation} />
+        )}
+        keyExtractor={item =>
+          item?.id ? item.id.toString() : Math.random().toString()
+        }
+        nestedScrollEnabled={true}
+        horizontal={true}
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        removeClippedSubviews={true}
+      />
+
+      {/* {products.length > 0 && (
           <>
             <Animated.View>
               <TouchableOpacity
@@ -261,8 +196,7 @@ const ProductCard = () => {
               </TouchableOpacity>
             </Animated.View>
           </>
-        )} */}
-      </View>
+        )}  */}
     </View>
   );
 };

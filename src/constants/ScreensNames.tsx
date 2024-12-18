@@ -4,5 +4,6 @@ export const ScreenName = {
   LOGIN_SCREEN:'login',
   SIGNUP_SCREEN:'signup',
   FORGOT_PASSWORD_SCREEN:'ForgotpasswordScreen',
-  GET_STARTED_SCREEN:'GetStartedScreen'
+  GET_STARTED_SCREEN:'GetStartedScreen',
+  PRODUCT_DETAILS_SCREEN:'product-details-screen'
 };

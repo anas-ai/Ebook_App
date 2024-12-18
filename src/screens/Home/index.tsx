@@ -21,21 +21,17 @@ import CustomSwiper from '../../components/PromoSwiperComponent/PromoCard';
 import ProductCard from '../../components/ProducCardComponent/ProductCard';
 import useAuth from '../../hooks/useAuth';
 import HeaderComponent from '../../components/HeaderComponent/HeaderComponent';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ScreenName} from '../../constants/ScreensNames';
 
-const Home = (props:any) => {
+const Home = (props: any) => {
   const {logout} = useAuth();
-
-
-  
- const HandleLogout = async()=>{
-  await logout(props)
- }
 
   return (
     <SafeAreaView style={globalStyles.globalStylesMainStack}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, paddingVertical: 20}}>
+        contentContainerStyle={{flexGrow: 1, paddingVertical: 4}}>
         <StatusBarComponent backgroundColor={colors.lightGray} />
         <HeaderComponent {...props} />
 
@@ -78,7 +74,7 @@ const Home = (props:any) => {
             />
           </View>
         </View>
-        
+
         <View
           style={{
             flexDirection: 'row',
@@ -99,7 +95,7 @@ const Home = (props:any) => {
               flexDirection: 'row',
               gap: 12,
             }}>
-            <TouchableOpacity onPress={HandleLogout}> 
+            <TouchableOpacity onPress={logout}>
               <View
                 style={{
                   backgroundColor: colors.white,
@@ -145,7 +141,12 @@ const Home = (props:any) => {
           </View>
         </View>
 
-        <View style={{marginVertical: 10, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <View
+          style={{
+            marginVertical: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+          }}>
           {[...Array(5)].map((item, index) => (
             <View key={index}>
               <Image
@@ -169,13 +170,13 @@ const Home = (props:any) => {
             </View>
           ))}
         </View>
-        
+
         <View>
           <CustomSwiper />
         </View>
 
         <View>
-          <ProductCard />
+          <ProductCard {...props} />
         </View>
 
         <View style={{marginVertical: 10}}>
@@ -208,7 +209,11 @@ const Home = (props:any) => {
                     alignItems: 'center',
                     gap: 4,
                   }}>
-                  <Icon name="calendar-outline" size={16} color={colors.white} />
+                  <Icon
+                    name="calendar-outline"
+                    size={16}
+                    color={colors.white}
+                  />
                   <TextHeading
                     title="Last Date 29/02/22 "
                     fontColor={colors.white}

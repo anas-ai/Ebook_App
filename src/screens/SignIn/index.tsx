@@ -14,7 +14,6 @@ import {colors} from '../../styles/colors';
 import StatusBarComponent from '../../components/StatusBarComponent/statusBar';
 import {Controller, useForm} from 'react-hook-form';
 import User from '../../assets/images/svg/User';
-import {Button} from '@rneui/themed';
 import {PNG_IMG} from '../../constants/images';
 import Eye from '../../assets/images/svg/Eye';
 import Lock from '../../assets/images/svg/Lock';
@@ -22,16 +21,12 @@ import Eyeoff from '../../assets/images/svg/Eyeoff';
 import Title from '../../components/TitleComponent/Title';
 import {ScreenName} from '../../constants/ScreensNames';
 import CustomButton from '../../components/CustumButtonComponent/CustomButton';
-import axios from 'axios';
-import {useToast} from 'react-native-toast-notifications';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { axiosInstance } from '../../utils/api';
-import { ApiConfig } from '../../config/ApiConfig';
+import {axiosInstance} from '../../utils/api';
+import {ApiConfig} from '../../config/ApiConfig';
 import useAuth from '../../hooks/useAuth';
 
 const LoginScreen = (props: any) => {
-  const{login} = useAuth()
-  const toast = useToast();
+  const {login} = useAuth();
   const [isPasswordVisible, setIsPasswordVisible] = useState<any>(false);
 
   interface TokenAndUserProps {
@@ -42,50 +37,30 @@ const LoginScreen = (props: any) => {
     };
   }
 
-
   const {
     control,
     handleSubmit,
     reset,
     formState: {errors, isSubmitting},
   } = useForm({defaultValues: {email: '', password: ''}});
+  const handleSignUP = () =>(
 
-  const handleSignUP = () =>
-    props.navigation.navigate(ScreenName.SIGNUP_SCREEN);
+    props.navigation.navigate(ScreenName.SIGNUP_SCREEN)
+  )
 
   
-
   const onSubmit = async (data: any) => {
-    
     try {
       await axiosInstance
-        .post(
-          ApiConfig.POST_LOGIN,
-          data,
-        )
+        .post(ApiConfig.POST_LOGIN, data)
         .then(async response => {
           if (response.status === 200) {
             const {accessToken, user} = response?.data?.data;
-            await login(accessToken)
-            // reset()
-            
-            toast.show('Login successful!', {
-              type: 'success',
-              placement: 'bottom',
-              duration: 3000,
-              animationType: 'zoom-in',
-            });
-            // props.navigation.navigate(ScreenName.GET_STARTED_SCREEN);
+            await login(accessToken);
           }
         });
     } catch (error: any) {
       console.error('Error during login:', error);
-      toast.show('Login failed. Please try again.', {
-        type: 'danger',
-        placement: 'bottom',
-        duration: 3000,
-        animationType: 'slide-in',
-      });
     }
   };
 
@@ -95,7 +70,7 @@ const LoginScreen = (props: any) => {
 
   return (
     <SafeAreaView style={globalStyles.globalContainer}>
-      <StatusBarComponent backgroundColor={colors.white}  />
+      <StatusBarComponent backgroundColor={colors.white} />
       <Title title="Welcome" title2="Back!" />
       <View style={styles.inputContainer}>
         <View
@@ -197,9 +172,8 @@ const LoginScreen = (props: any) => {
         titleStyle={styles.buttonTitle}
         buttonStyle={styles.loginButton}
         disabled={isSubmitting}
-        loginButtonContainer={{marginTop:50}}
+        loginButtonContainer={{marginTop: 50}}
       />
-
 
       <View style={styles.socialLoginContainer}>
         <TextHeading
